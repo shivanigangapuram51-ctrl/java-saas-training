@@ -1,10 +1,13 @@
 package com.saas.training.model;
+import java.time.LocalDate;
 
 public class Subscription {
     private Long id;
     private String planName;
     private double amount;
     private String status;
+    private LocalDate startDate;
+    private LocalDate expiryDate;
 
     public Subscription() {
     }

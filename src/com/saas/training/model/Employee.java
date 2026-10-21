@@ -1,12 +1,15 @@
 
 package com.saas.training.model;
 
+import java.time.LocalDate;
+
 public class Employee extends User {
 
     private String phone;
     private double salary;
     private String department;
-    private String status;
+    private String status = "ACTIVE";
+    private LocalDate joiningDate;
 
     public Employee() {
         super();
@@ -45,9 +48,9 @@ public class Employee extends User {
     }
 
     public void setSalary(double salary) {
-        if (salary < 0) {
+        if (!Double.isFinite(salary) || salary < 0) {
             throw new IllegalArgumentException(
-                    "Salary cannot be negative");
+                    "Salary must be a valid non-negative number");
         }
         this.salary = salary;
     }
@@ -67,7 +70,52 @@ public class Employee extends User {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public LocalDate getJoiningDate() {
+        return joiningDate;
+    }
+
+    public void setJoiningDate(LocalDate joiningDate) {
+        this.joiningDate = joiningDate;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Employee)) {
+            return false;
+        }
+
+        Employee other = (Employee) obj;
+
+        return getId() != null
+                && getId().equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() == null ? 0 : getId().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", phone='" + phone + '\'' +
+                ", salary=" + salary +
+                ", department='" + department + '\'' +
+                ", status='" + status + '\'' +
+                ", joiningDate=" + joiningDate +
+                '}';
+    }
 }
+
+
 
 
 

@@ -1,4 +1,3 @@
-
 package com.saas.training;
 
 import com.saas.training.model.User;
@@ -8,21 +7,38 @@ import com.saas.training.model.Admin;
 import com.saas.training.model.Organization;
 import com.saas.training.model.Department;
 import com.saas.training.model.Subscription;
+import com.saas.training.model.EmployeeStatus;
+import com.saas.training.model.SubscriptionPlan;
 
 import com.saas.training.notification.NotificationService;
 import com.saas.training.notification.EmailNotificationService;
 import com.saas.training.notification.SMSNotificationService;
 
+import com.saas.training.repository.EmployeeRepository;
+import com.saas.training.service.EmployeeService;
+import com.saas.training.util.EmployeeValidator;
+import com.saas.training.util.SubscriptionUtil;
+
+
 public class Main {
 
     public static void main(String[] args) {
 
-        NotificationService service = new EmailNotificationService();
+        try {
+            EmployeeValidator.validateName("Shivani");
+            EmployeeValidator.validateEmail("shivani@example.com");
+            EmployeeValidator.validateSalary(30000);
 
-        service.sendEmail();
-        service.sendNotification();
+            System.out.println("Employee details are valid.");
 
+        } catch (RuntimeException e) {
+            System.out.println("Validation error: " + e.getMessage());
+        }
+        EmployeeRepository repository = new EmployeeRepository();
 
+        EmployeeService service = new EmployeeService(repository);
+
+        // TASK 1: Java SaaS Training Started
         System.out.println("Java SaaS Training Started");
 
         // TASK 2: Variables and Data Types
@@ -32,12 +48,23 @@ public class Main {
         double subscriptionAmount = 4999.00;
         boolean active = true;
 
-        System.out.println("\n--- Company Details ---");
+        System.out.println("\n--- Task 2: Company Details ---");
         System.out.println("Company: " + companyName);
         System.out.println("Admin: " + adminName);
         System.out.println("Employees: " + employeeCount);
         System.out.println("Subscription: " + subscriptionAmount);
         System.out.println("Active: " + active);
+
+        // TASK 2: Enums and Subscription Limits
+        EmployeeStatus status = EmployeeStatus.ACTIVE;
+        SubscriptionPlan plan = SubscriptionPlan.PRO;
+
+        System.out.println("Employee Status: " + status);
+        System.out.println("Subscription Plan: " + plan);
+        System.out.println(
+                "Employee Limit: "
+                        + SubscriptionUtil.getEmployeeLimit(plan)
+        );
 
         // TASK 3: Operators
         double subscriptionPrice = 4999.00;
@@ -49,12 +76,16 @@ public class Main {
 
         System.out.println("\n--- Task 3: Operators ---");
         System.out.println("Final Amount: " + finalAmount);
-        System.out.println("More than 10 employees: "
-                + (employeeCount > 10));
-        System.out.println("Employee count is 50: "
-                + (employeeCount == 50));
-        System.out.println("Active and more than 10 employees: "
-                + (active && employeeCount > 10));
+        System.out.println(
+                "More than 10 employees: " + (employeeCount > 10)
+        );
+        System.out.println(
+                "Employee count is 50: " + (employeeCount == 50)
+        );
+        System.out.println(
+                "Active and more than 10 employees: "
+                        + (active && employeeCount > 10)
+        );
 
         int count = 10;
         count += 5;
@@ -62,6 +93,7 @@ public class Main {
 
         // TASK 4: Conditional Statements
         System.out.println("\n--- Task 4: Employee Status ---");
+
         checkEmployeeStatus("ACTIVE");
         checkEmployeeStatus("INACTIVE");
         checkEmployeeStatus("ON_LEAVE");
@@ -69,6 +101,7 @@ public class Main {
 
         // TASK 5: Switch Statement
         System.out.println("\n--- Task 5: Subscription Plans ---");
+
         showSubscriptionFeatures("FREE");
         showSubscriptionFeatures("BASIC");
         showSubscriptionFeatures("PRO");
@@ -101,8 +134,9 @@ public class Main {
         double calculatedSubscription =
                 calculateSubscription(4999, 1000, 500);
 
-        System.out.println("Calculated Subscription: "
-                + calculatedSubscription);
+        System.out.println(
+                "Calculated Subscription: " + calculatedSubscription
+        );
 
         // TASK 8: Employee Object
         Employee employee = new Employee();
@@ -139,15 +173,23 @@ public class Main {
         );
 
         System.out.println("\n--- Task 9: Constructors ---");
-        System.out.println("Employee 1: "
-                + employee1.getId() + ", " + employee1.getName());
-        System.out.println("Employee 2: "
-                + employee2.getId() + ", " + employee2.getName());
-        System.out.println("Employee 3: "
-                + employee3.getId() + ", "
-                + employee3.getName() + ", "
-                + employee3.getEmail() + ", "
-                + employee3.getSalary());
+        System.out.println(
+                "Employee 1: "
+                        + employee1.getId() + ", "
+                        + employee1.getName()
+        );
+        System.out.println(
+                "Employee 2: "
+                        + employee2.getId() + ", "
+                        + employee2.getName()
+        );
+        System.out.println(
+                "Employee 3: "
+                        + employee3.getId() + ", "
+                        + employee3.getName() + ", "
+                        + employee3.getEmail() + ", "
+                        + employee3.getSalary()
+        );
 
         // TASK 10: Encapsulation and Validation
         System.out.println("\n--- Task 10: Encapsulation ---");
@@ -158,8 +200,9 @@ public class Main {
             System.out.println("Validation: " + e.getMessage());
         }
 
-        System.out.println("Employee salary remains: "
-                + employee.getSalary());
+        System.out.println(
+                "Employee salary remains: " + employee.getSalary()
+        );
 
         // TASK 11: SaaS Domain Classes
         System.out.println("\n--- Task 11: SaaS Domain Classes ---");
@@ -186,19 +229,27 @@ public class Main {
         organization.setSubscription(subscription);
 
         System.out.println("Organization: " + organization.getName());
-        System.out.println("Employees: "
-                + organization.getEmployees().size());
-        System.out.println("Departments: "
-                + organization.getDepartments().size());
-        System.out.println("Subscription Plan: "
-                + organization.getSubscription().getPlanName());
+        System.out.println(
+                "Employees: " + organization.getEmployees().size()
+        );
+        System.out.println(
+                "Departments: " + organization.getDepartments().size()
+        );
+        System.out.println(
+                "Subscription Plan: "
+                        + organization.getSubscription().getPlanName()
+        );
 
         // TASKS 12-14: Inheritance, Overriding and Abstraction
         System.out.println("\n--- Tasks 12-14: OOP ---");
 
         User employeeUser = new Employee(104L, "Shivani");
-        User hrUser = new HR(105L, "Priya", "priya@example.com");
-        User adminUser = new Admin(106L, "Rahul", "rahul@example.com");
+        User hrUser = new HR(
+                105L, "Priya", "priya@example.com"
+        );
+        User adminUser = new Admin(
+                106L, "Rahul", "rahul@example.com"
+        );
 
         User[] users = {employeeUser, hrUser, adminUser};
 
@@ -225,6 +276,7 @@ public class Main {
 
     // TASK 4: Check Employee Status
     static void checkEmployeeStatus(String status) {
+
         if (status.equals("ACTIVE")) {
             System.out.println("Employee is active");
         } else if (status.equals("INACTIVE")) {
@@ -240,19 +292,24 @@ public class Main {
 
     // TASK 5: Subscription Plan Features
     static void showSubscriptionFeatures(String plan) {
+
         switch (plan) {
             case "FREE":
                 System.out.println("FREE -> Limited Features");
                 break;
+
             case "BASIC":
                 System.out.println("BASIC -> Employee Management");
                 break;
+
             case "PRO":
                 System.out.println("PRO -> Employee + Payroll");
                 break;
+
             case "ENTERPRISE":
                 System.out.println("ENTERPRISE -> All Features");
                 break;
+
             default:
                 System.out.println("Invalid subscription plan");
         }
@@ -260,6 +317,7 @@ public class Main {
 
     // TASK 6: Print Employees
     static void printEmployees() {
+
         for (int i = 1; i <= 10; i++) {
             System.out.println("Employee " + i);
         }
@@ -267,6 +325,7 @@ public class Main {
 
     // TASK 6: Print Active Employees
     static void printActiveEmployees() {
+
         String[] statuses = {
                 "ACTIVE", "INACTIVE", "ACTIVE", "ON_LEAVE",
                 "ACTIVE", "TERMINATED", "INACTIVE", "ACTIVE",
@@ -275,14 +334,16 @@ public class Main {
 
         for (int i = 0; i < statuses.length; i++) {
             if (statuses[i].equals("ACTIVE")) {
-                System.out.println("Employee "
-                        + (i + 1) + " is active");
+                System.out.println(
+                        "Employee " + (i + 1) + " is active"
+                );
             }
         }
     }
 
     // TASK 6: While Loop
     static void printUsingWhile() {
+
         int count = 1;
 
         while (count <= 3) {
@@ -293,6 +354,7 @@ public class Main {
 
     // TASK 6: Do-While Loop
     static void printUsingDoWhile() {
+
         int count = 1;
 
         do {
@@ -304,16 +366,19 @@ public class Main {
     // TASK 7: Calculate Gross Salary
     static double calculateSalary(
             double basicSalary, double allowance) {
+
         return basicSalary + allowance;
     }
 
     // TASK 7: Calculate Tax
     static double calculateTax(double salary) {
+
         return salary * 0.10;
     }
 
     // TASK 7: Calculate Net Salary
     static double calculateNetSalary(double salary, double tax) {
+
         return salary - tax;
     }
 
@@ -321,8 +386,10 @@ public class Main {
     static double calculateSubscription(
             double subscriptionPrice,
             double addOnPrice,
+                
             double discount) {
+
         return subscriptionPrice + addOnPrice - discount;
     }
-
 }
+
