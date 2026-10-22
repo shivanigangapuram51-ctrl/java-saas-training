@@ -1,8 +1,6 @@
 package com.saas.training;
-
 import com.saas.training.model.Employee;
 import java.util.*;
-
 public class CollectionsDemo {
 
     public static void main(String[] args) {
@@ -12,7 +10,6 @@ public class CollectionsDemo {
         Set<String> departments = new HashSet<>();
         Map<String, List<Employee>> departmentEmployees =
                 new HashMap<>();
-
         Employee e1 = new Employee(
                 101L, "Shivani", "shivani@example.com", 30000
         );
@@ -23,10 +20,7 @@ public class CollectionsDemo {
         );
         Employee e3 = new Employee(
                 103L, "Shiva", "Shiva@example.com", 33000
-
-
         );
-
         e1.setDepartment("IT");
         e2.setDepartment("HR");
         e3.setDepartment("Manager");
@@ -52,8 +46,6 @@ public class CollectionsDemo {
         for (Employee employee : employees) {
             System.out.println(employee.getName());
         }
-
-
         // 3. SEARCH employee by ID
         System.out.println("\n--- Search by ID ---");
         for (Employee employee : employees) {
